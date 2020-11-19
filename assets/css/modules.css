@@ -1,0 +1,44 @@
+#top {
+    margin: 0 auto;
+}
+#left, #right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+#left {
+    left: 0;
+}
+#right {
+    right: 0;
+}
+#left .player, #right .player {
+    height: 95px;
+    width: 275px;
+    border-radius: 8px;
+    border-radius: 0 8px 8px 0;
+    background-color: #13283E;
+    margin: 20px;
+    overflow: hidden;
+}
+#right .player { 
+    border-radius: 8px 0px 0px 8px;
+}
+.boost {
+    height: 28px;
+    background: white;
+    background: transparent linear-gradient(90deg, #E3BC4F 0%, #FB146A 100%) 0% 0% no-repeat padding-box;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+}
+.boost div {
+    padding-right: 1rem;
+}
+
+.player-name {
+
+}
+.player-info {
+
+}

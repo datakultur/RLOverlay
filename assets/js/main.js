@@ -25,6 +25,9 @@ window.onload = (e) => {
     WsSubscribers.subscribe("game", "initialized", (state) => {
         console.log(state);
     });
+    WsSubscribers.subscribe("game", "statfeed", (state) => {
+        console.log(state);
+    });
     WsSubscribers.subscribe("game", "update_state", (game_state) => {
         if (gameState == null || gameState == undefined) {
 
@@ -32,7 +35,7 @@ window.onload = (e) => {
                 gameState = game_state;
                 gameState["players"].forEach(player => {
                     player["team"] == 0 ? teamOnePlayers.push(player) : teamTwoPlayers.push(player);
-                    //console.log(player);
+                    
                 });
             }
 
@@ -78,6 +81,7 @@ function updatePlayers(players) {
         playersEl.forEach(el => {
             if (el.querySelector(".player-name").innerHTML == key) {
                 el.querySelector(".boost span").innerHTML = value["boost"];
+                el.querySelector(".boost").style.width = value["boost"] + '%';
                 el.querySelector(".goals").innerHTML = value["goals"];
                 el.querySelector(".assists").innerHTML = value["assists"];
                 el.querySelector(".saves").innerHTML = value["saves"];

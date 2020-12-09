@@ -1,4 +1,6 @@
 @import "normalize.css";
 @import "vars.css";
+@import "fonts.css";
+
 @import "base.css";
 @import "modules.css";

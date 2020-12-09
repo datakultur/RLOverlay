@@ -1,5 +1,23 @@
 #top {
     margin: 0 auto;
+    background-color: #12263d;
+    width: 50%;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+#top .score {
+    justify-content: space-between;
+    
+}
+#top .scoreboard {
+   justify-content: space-between;
+   background: gray;
+}
+#top .score .teamName {
+    font-size: 36px;
+    text-align: center;
+    flex: 1;
+    padding: 15px 0;
 }
 #left, #right {
     position: absolute;
@@ -16,13 +34,12 @@
     height: 95px;
     width: 275px;
     border-radius: 8px;
-    border-radius: 0 8px 8px 0;
-    background-color: #13283E;
+    background-color: #12263d;
     margin: 20px;
     overflow: hidden;
+    position: relative;
 }
 #right .player { 
-    border-radius: 8px 0px 0px 8px;
 }
 .boost {
     height: 28px;
@@ -31,14 +48,45 @@
     width: 100%;
     justify-content: flex-end;
     align-items: center;
+    -webkit-box-shadow: inset 0px -3px 5px -1px rgba(19,40,62,0.6);
+    -moz-box-shadow: inset 0px -3px 5px -1px rgba(19,40,62,0.6);
+    box-shadow: inset 0px -3px 5px -1px rgba(19,40,62,0.6);
+    transition: .2s;
 }
 .boost div {
     padding-right: 1rem;
 }
+.boost span {
+    position: absolute;
+    top: 4px;
+    right: 13px;
+}
 
 .player-name {
-
+    padding-left: 8px;
+    border-top: 1px solid #dedede;
+    margin-bottom: -4px;
 }
 .player-info {
-
+    justify-content: space-between;
+    background: transparent linear-gradient(90deg, #E3BC4F 0%, #FB146A 100%) 0% 0% no-repeat padding-box;
+    margin: 15px 35px;
+    overflow: hidden;
+    height:25px;
+}
+.player-info div {
+    position: relative;
+    max-height: 25px;
+}
+.player-info span {
+    position: absolute;
+    top:50%;
+    right: -20px;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+.player-info-background {
+    position: relative;
+    flex: 1;
+    background-color: #12263d;
 }

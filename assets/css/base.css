@@ -2,7 +2,7 @@
     width: 100vw;
     height: 100vh;
     color: white;
-    font-family: 'Roboto', 'Th';
+    font-family: 'Barlow-Medium';
 }
 .flex {
     display: flex;
@@ -11,4 +11,7 @@
 }
 .flex-column {
     flex-direction: column;
+}
+body {
+    
 }

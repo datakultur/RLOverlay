@@ -18,24 +18,35 @@ const teamOnePlayersEl = document.querySelectorAll("#left .player");
 const teamTwoPlayersEl = document.querySelectorAll("#right .player");
 const playersEl = document.querySelectorAll(".player");
 
+const currentlySpectatedPlayer = document.querySelector("#currentlySpectatedPlayer");
+var lastSpectatedPlayer = null;
+
+var gameTime = 0;
+const minutes = document.querySelector("#minutes");
+const seconds = document.querySelector("#seconds");
+
 
 window.onload = (e) => {
     WsSubscribers.init(49322, true);
     //game_state
     WsSubscribers.subscribe("game", "initialized", (state) => {
-        console.log(state);
+        // console.log(state);
     });
     WsSubscribers.subscribe("game", "statfeed", (state) => {
-        console.log(state);
+        // console.log(state);
     });
     WsSubscribers.subscribe("game", "update_state", (game_state) => {
+        
+
+
+
         if (gameState == null || gameState == undefined) {
 
             if (game_state["players"].length > 1) {
                 gameState = game_state;
                 gameState["players"].forEach(player => {
                     player["team"] == 0 ? teamOnePlayers.push(player) : teamTwoPlayers.push(player);
-                    
+
                 });
             }
 
@@ -44,6 +55,7 @@ window.onload = (e) => {
             teamTwoName = game_state["game"]["teams"][1]["name"];
             teamOneNameEl.innerHTML = teamOneName;
             teamTwoNameEl.innerHTML = teamTwoName;
+
         }
         //set players
         if (teamOnePlayers.length == 0) {
@@ -67,12 +79,30 @@ window.onload = (e) => {
         if (teamTwoScore != game_state["game"]["teams"][1]["score"]) {
             teamTwoScore = game_state["game"]["teams"][1]["score"];
         }
+        if ((gameTime) > (game_state["game"]["time"])) {
+        } else {
+            gameTime = game_state["game"]["time"];
+            var min = Math.floor(game_state["game"]["time"] / 60);
+            var sec = game_state["game"]["time"] - (min * 60);
+            minutes.innerHTML = min;
+            seconds.innerHTML = Math.round(sec);
+        }
 
         //update elements
         teamOneScoreEl.innerHTML = teamOneScore;
         teamTwoScoreEl.innerHTML = teamTwoScore;
         updatePlayers(game_state["players"]);
+        updateCurrentlySpectating(game_state["game"]["target"], game_state["players"]);
+
     });
+}
+
+function updateCurrentlySpectating(playerName, players) {
+    var currentPlayer = null;
+    console.log(players);
+    for (let [key, value] of Object.entries(players)) {
+        //#TODO: some stuff here
+    };
 }
 
 function updatePlayers(players) {

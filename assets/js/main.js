@@ -19,9 +19,16 @@ const teamTwoPlayersEl = document.querySelectorAll("#right .player");
 const playersEl = document.querySelectorAll(".player");
 
 const currentlySpectatedPlayer = document.querySelector("#currentlySpectatedPlayer");
+const currentlySpectatedPlayerName = currentlySpectatedPlayer.querySelector(".name");
+const currentlySpectatedPlayerImg = currentlySpectatedPlayer.querySelector("img");
+const specBoostContainer = document.querySelector(".spec-boost-container");
+const overTimeEl = document.querySelector(".overtime");
 var lastSpectatedPlayer = null;
 
-var gameTime = 0;
+const replayEl = document.querySelector("#replay");
+
+var gameTime = 300;
+var OTgameTime = 0;
 const minutes = document.querySelector("#minutes");
 const seconds = document.querySelector("#seconds");
 
@@ -36,9 +43,18 @@ window.onload = (e) => {
         // console.log(state);
     });
     WsSubscribers.subscribe("game", "update_state", (game_state) => {
-        
+        console.log(game_state);
 
-
+        if (game_state["game"]["isReplay"]) {
+            replayEl.style.display = "flex";
+        } else {
+            replayEl.style.display = "none";
+        }
+        if (game_state["game"]["isOT"]) {
+            overTimeEl.style.display = "block";
+        } else {
+            overTimeEl.style.display = "none";
+        }
 
         if (gameState == null || gameState == undefined) {
 
@@ -63,11 +79,11 @@ window.onload = (e) => {
                 createPlayers(game_state["players"]);
                 for (let index = 0; index < teamOnePlayersEl.length; index++) {
                     const element = teamOnePlayersEl[index];
-                    element.querySelectorAll(".player-name")[0].innerHTML = teamOnePlayers[index];
+                    element.querySelectorAll(".player-name")[0].innerHTML = teamOnePlayers[index].substring(0, teamOnePlayers[index].length - 2);
                 }
                 for (let index = 0; index < teamTwoPlayersEl.length; index++) {
                     const element = teamTwoPlayersEl[index];
-                    element.querySelectorAll(".player-name")[0].innerHTML = teamTwoPlayers[index];
+                    element.querySelectorAll(".player-name")[0].innerHTML = teamTwoPlayers[index].substring(0, teamTwoPlayers[index].length - 2);
                 }
             }
         }
@@ -79,13 +95,30 @@ window.onload = (e) => {
         if (teamTwoScore != game_state["game"]["teams"][1]["score"]) {
             teamTwoScore = game_state["game"]["teams"][1]["score"];
         }
-        if ((gameTime) > (game_state["game"]["time"])) {
+        if (game_state["game"]["isOT"]) {
+            if (OTgameTime < game_state["game"]["time"]) {
+
+                OTgameTime = game_state["game"]["time"];
+                var min = Math.floor(game_state["game"]["time"] / 60);
+                var sec = game_state["game"]["time"] - (min * 60);
+                minutes.innerHTML = min;
+                seconds.innerHTML = Math.round(sec);
+                if (seconds.innerHTML.length == 1) {
+                    seconds.innerHTML = "0" + seconds.innerHTML;
+                }
+            }
         } else {
-            gameTime = game_state["game"]["time"];
-            var min = Math.floor(game_state["game"]["time"] / 60);
-            var sec = game_state["game"]["time"] - (min * 60);
-            minutes.innerHTML = min;
-            seconds.innerHTML = Math.round(sec);
+            if (gameTime > game_state["game"]["time"]) {
+
+                gameTime = game_state["game"]["time"];
+                var min = Math.floor(game_state["game"]["time"] / 60);
+                var sec = game_state["game"]["time"] - (min * 60);
+                minutes.innerHTML = min;
+                seconds.innerHTML = Math.round(sec);
+                if (seconds.innerHTML.length == 1) {
+                    seconds.innerHTML = "0" + seconds.innerHTML;
+                }
+            }
         }
 
         //update elements
@@ -100,16 +133,41 @@ window.onload = (e) => {
 function updateCurrentlySpectating(playerName, players) {
     var currentPlayer = null;
     console.log(players);
-    for (let [key, value] of Object.entries(players)) {
-        //#TODO: some stuff here
-    };
+    if (playerName == "") {
+        currentlySpectatedPlayer.style.display = "none";
+    }
+    else {
+        currentlySpectatedPlayer.style.display = "block";
+
+        for (let [key, value] of Object.entries(players)) {
+            if (playerName == key) {
+                if (value["team"] == 1) {
+                    specBoostContainer.querySelector(".spec-boost").classList.add("right");
+                    currentlySpectatedPlayer.querySelector(".player-container").classList.add("right");
+                } else {
+                    specBoostContainer.querySelector(".spec-boost").classList.remove("right");
+                    currentlySpectatedPlayer.querySelector(".player-container").classList.remove("right");
+                }
+                console.log(key);
+                currentlySpectatedPlayerName.innerHTML = key.substring(0, key.length - 2);
+                currentlySpectatedPlayerImg.src = "C:/Rocket league stuff/RLOverlay/assets/img/player-images/" + key.substring(0, key.length - 2) + ".png";
+                currentlySpectatedPlayer.querySelector("#spec-score").innerHTML = value["score"];
+                currentlySpectatedPlayer.querySelector("#spec-assists").innerHTML = value["assists"];
+                currentlySpectatedPlayer.querySelector("#spec-goals").innerHTML = value["goals"];
+                currentlySpectatedPlayer.querySelector("#spec-shots").innerHTML = value["shots"];
+                currentlySpectatedPlayer.querySelector("#spec-saves").innerHTML = value["saves"];
+                currentlySpectatedPlayer.querySelector(".spec-boost").style.width = value["boost"] + '%';
+                currentlySpectatedPlayer.querySelector(".spec-boost-number").innerHTML = value["boost"];
+            }
+        };
+    }
 }
 
 function updatePlayers(players) {
     for (let [key, value] of Object.entries(players)) {
         //console.log(`${key}: ${value}`);
         playersEl.forEach(el => {
-            if (el.querySelector(".player-name").innerHTML == key) {
+            if (el.querySelector(".player-name").innerHTML == key.substring(0, key.length - 2)) {
                 el.querySelector(".boost span").innerHTML = value["boost"];
                 el.querySelector(".boost").style.width = value["boost"] + '%';
                 el.querySelector(".goals").innerHTML = value["goals"];

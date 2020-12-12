@@ -6,18 +6,24 @@
 
 <body>
     <div class="wrapper">
+        <div id="replay">
+            <div class="dot"></div>
+            <div class="replay-text">REPLAY</div>
+        </div>
         <div id="top">
             <div class="score flex">
                 <div id="teamOneName" class="teamName">Test 1</div>
                 <div class="scoreboard flex">
                     <div class="leftScore"><span>0</span></div>
                     <div class="devider">
-                      <div class="time"><span id="minutes">00</span>:<span id="seconds">00</span></div>
+                      <div class="time"><span id="minutes">5</span>:<span id="seconds">00</span></div>
+                        <div class="overtime">OVERTIME</div>
                     </div>
                     <div class="rightScore"><span>0</span></div>
                 </div>
-                <div id="teamTwoName" class="teamName">Test 2</div>
+                <div id="teamTwoName" class="teamName right">Test 2</div>
             </div>
+            
         </div>
         <div id="left">
             <div class="player">
@@ -361,7 +367,25 @@
         </div>
         <div id="bottom">
             <div class="left">
-              <div id="currentlySpectatedPlayer"></div>
+              <div id="currentlySpectatedPlayer">
+                  <div class="player-container">
+                      <img src="" alt="" width="205">
+                      <div class="name">Testname</div>
+                  </div>
+                  <div class="spectating-stats">
+                      <div class="stat"><span>SCORE</span><span id="spec-score" class="spec-stat">0</span></div>
+                      <div class="stat"><span>ASSISTS</span><span id="spec-assists" class="spec-stat">0</span></div>
+                      <div class="stat"><span>GOALS</span><span id="spec-goals" class="spec-stat">0</span></div>
+                      <div class="stat"><span>SHOTS</span><span id="spec-shots" class="spec-stat">0</span></div>
+                      <div class="stat"><span>SAVES</span><span id="spec-saves" class="spec-stat">0</span></div>
+                  </div>
+                  <div class="spec-boost-container">
+                      <div class="boost-container">
+                          <div class="spec-boost"></div>
+                          <span class="spec-boost-number">100</span>
+                      </div>
+                  </div>
+              </div>
             </div>
             <div class="right">
             </div>
